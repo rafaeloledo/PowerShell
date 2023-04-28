@@ -3,6 +3,9 @@
 $PSDefaultParameterValues['Out-File:Encoding'] = 'utf8'
 $PSDefaultParameterValues['*:Encoding'] = 'utf8'
 
+# Modules
+Import-Module -Name PSColor # https://github.com/Davlind/PSColor
+
 function lla () {
 	Get-ChildItem
 	Get-ChildItem -h
@@ -57,3 +60,5 @@ Set-Alias g git
 Set-Alias st status
 Set-Alias s scoop
 Set-Alias uns uninstall
+Set-Alias subl sublime_text
+Set-Alias bat cat
