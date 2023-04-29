@@ -43,12 +43,12 @@ function upall () {
 
 # change the behavior of duplicate terminal tab to open in the same cwd
 # https://learn.microsoft.com/en-us/windows/terminal/tutorials/new-tab-same-directory
-function prompt {
-	$loc = $($executionContext.SessionState.Path.CurrentLocation);
-	$out = "PS $loc$('>' * ($nestedPromptLevel + 1)) ";
-	$out += "$([char]27)]9;9;`"$loc`"$([char]27)\"
-	return $out
-}
+# function prompt {
+# 	$loc = $($executionContext.SessionState.Path.CurrentLocation);
+# 	$out = "PS $loc$('>' * ($nestedPromptLevel + 1)) ";
+# 	$out += "$([char]27)]9;9;`"$loc`"$([char]27)\"
+# 	return $out
+# }
 
 Set-Alias vim nvim
 Set-Alias which where.exe
@@ -62,3 +62,7 @@ Set-Alias s scoop
 Set-Alias uns uninstall
 Set-Alias subl sublime_text
 Set-Alias bat cat
+
+function pwsh () {
+	pwsh.exe -NoLogo
+}
