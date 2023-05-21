@@ -50,7 +50,7 @@ function upall () {
 
 Set-Alias vim nvim
 Set-Alias which where.exe
-Set-Alias rename Rename-Item
+Set-Alias mv Rename-Item
 Set-Alias touch New-Item
 Set-Alias scmds Show-Command
 Set-Alias g git
