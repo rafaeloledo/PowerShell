@@ -5,10 +5,17 @@ $PSDefaultParameterValues['*:Encoding'] = 'utf8'
 
 # Modules
 Import-Module -Name PSColor # https://github.com/Davlind/PSColor
+## remove `Write-Host ""` from the source code, the main repo is not maintained anymore - 19/05/2023
+
+# Function aliases
 
 function lla () {
 	Get-ChildItem
 	Get-ChildItem -h
+}
+
+function ll () {
+  Get-ChildItem -Path . -Exclude ".*"
 }
 
 function pall () {
@@ -18,11 +25,11 @@ function pall () {
 		Set-Location $dir.FullName
 		Write-Output $dir.FullName
 		git pull origin
-	}   
+	}
 	Set-Location $back.Path
 }
 
-function statusall () {
+function stall () {
 	$originalDir = Get-Location
 	$dirs = Get-ChildItem -Path . | Where-Object { $_.PSIsContainer }
 	foreach ($dir in $dirs) {
@@ -41,28 +48,13 @@ function upall () {
 	scoop status
 }
 
-# change the behavior of duplicate terminal tab to open in the same cwd
-# https://learn.microsoft.com/en-us/windows/terminal/tutorials/new-tab-same-directory
-# function prompt {
-# 	$loc = $($executionContext.SessionState.Path.CurrentLocation);
-# 	$out = "PS $loc$('>' * ($nestedPromptLevel + 1)) ";
-# 	$out += "$([char]27)]9;9;`"$loc`"$([char]27)\"
-# 	return $out
-# }
-
 Set-Alias vim nvim
 Set-Alias which where.exe
 Set-Alias rename Rename-Item
 Set-Alias touch New-Item
 Set-Alias scmds Show-Command
-Set-Alias ll ls
 Set-Alias g git
 Set-Alias st status
 Set-Alias s scoop
 Set-Alias uns uninstall
-Set-Alias subl sublime_text
-Set-Alias bat cat
 
-function pwsh () {
-	pwsh.exe -NoLogo
-}
