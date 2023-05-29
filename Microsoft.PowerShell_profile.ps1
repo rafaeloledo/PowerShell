@@ -14,10 +14,6 @@ function lla () {
 	Get-ChildItem -h
 }
 
-function ll () {
-  Get-ChildItem -Path . -Exclude ".*"
-}
-
 function llw () {
     Get-ChildItem | Sort-Object LastWriteTime -Descending
 }
@@ -52,6 +48,7 @@ function upall () {
 	scoop status
 }
 
+Set-Alias ll ls
 Set-Alias vim nvim
 Set-Alias which where.exe
 Set-Alias mv Rename-Item
