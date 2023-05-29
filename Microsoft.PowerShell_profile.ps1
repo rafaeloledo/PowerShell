@@ -18,6 +18,10 @@ function ll () {
   Get-ChildItem -Path . -Exclude ".*"
 }
 
+function llw () {
+    Get-ChildItem | Sort-Object LastWriteTime -Descending
+}
+
 function pall () {
 	$dirs = Get-ChildItem -Path . | Where-Object { $_.PSIsContainer }
 	$back = Get-Location
