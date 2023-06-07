@@ -15,7 +15,7 @@ function lla () {
 }
 
 function llw () {
-    Get-ChildItem | Sort-Object LastWriteTime -Descending
+	Get-ChildItem | Sort-Object LastWriteTime -Descending
 }
 
 function pall () {
@@ -46,6 +46,12 @@ function upall () {
 	scoop update bucket *
 	scoop cleanup *
 	scoop status
+}
+
+function prompt {
+	$(if (Test-Path variable:/PSDebugContext) { '[DBG]: ' }
+		else { '' }) + '󰉋 ' + $(Split-Path -Path (Get-Location) -Leaf) +
+	$(if ($NestedPromptLevel -ge 1) { '>>' }) + ' 󰁕'
 }
 
 Set-Alias ll ls
