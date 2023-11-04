@@ -1,22 +1,34 @@
-# set PowerShell to UTF-8
+# pwsh.exe -nologo -- remove pwsh version
+
 [console]::InputEncoding = [console]::OutputEncoding = New-Object System.Text.UTF8Encoding
 $PSDefaultParameterValues['Out-File:Encoding'] = 'utf8'
 $PSDefaultParameterValues['*:Encoding'] = 'utf8'
 
-# Modules
-Import-Module -Name PSColor # https://github.com/Davlind/PSColor
-## remove `Write-Host ""` from the source code, the main repo is not maintained anymore - 19/05/2023
+Import-Module Terminal-Icons # Install-Module -Name Terminal-Icons
 
-# Function aliases
-
-function lla () {
-	Get-ChildItem
-	Get-ChildItem -h
+function Export ($PathToAdd){
+	$existingPath = [Environment]::GetEnvironmentVariable('Path', 'User')
+	($existingPath -notlike "*$PathToAdd*") -and [Environment]::SetEnvironmentVariable('Path', $env:Path + ";" + $PathToAdd, 'User')
 }
 
-function llw () {
-	Get-ChildItem | Sort-Object LastWriteTime -Descending
+function GlobalExport ($PathToAdd){
+	$existingPath = [Environment]::GetEnvironmentVariable('Path', 'Machine')
+	($existingPath -notlike "*$PathToAdd*") -and [Environment]::SetEnvironmentVariable('Path', $env:Path + ";" + $PathToAdd, 'Machine')
 }
+
+Export 'C:\Users\rafae\scoop\apps\scoop\current\bin' > $null
+Export 'C:\Users\rafae\scoop\shims' > $null
+
+# Needs admin privileges
+# Runs only if the varible not exist
+$env:GIT_EDITOR -or [Environment]::SetEnvironmentVariable('GIT_EDITOR', 'C:\\Users\\rafae\\scoop\\shims\\nvim.exe', 'Machine') >$null
+$env:SCOOP -or [Environment]::SetEnvironmentVariable('SCOOP', 'C:\Users\rafae\scoop' , 'Machine') >$null
+$env:SCOOP_GLOBAL -or [Environment]::SetEnvironmentVariable('SCOOP_GLOBAL', 'C:\Users\rafae\scoopg', 'Machine') >$null
+
+Set-PSReadLineOption -EditMode Emacs
+Set-PSReadLineKeyHandler -Chord 'Ctrl+d' -Function DeleteChar
+Set-PSReadLineOption -PredictionSource History
+Set-PSReadLineOption -BellStyle None
 
 function pall () {
 	$dirs = Get-ChildItem -Path . | Where-Object { $_.PSIsContainer }
@@ -29,7 +41,7 @@ function pall () {
 	Set-Location $back.Path
 }
 
-function stall () {
+function st () {
 	$originalDir = Get-Location
 	$dirs = Get-ChildItem -Path . | Where-Object { $_.PSIsContainer }
 	foreach ($dir in $dirs) {
@@ -41,7 +53,7 @@ function stall () {
 	Set-Location $originalDir
 }
 
-function upall () {
+function sup () {
 	scoop update *
 	scoop update bucket *
 	scoop cleanup *
@@ -49,19 +61,37 @@ function upall () {
 }
 
 function prompt {
+  $Host.UI.RawUI.WindowTitle = ($pwd | Split-Path -Leaf)
 	$(if (Test-Path variable:/PSDebugContext) { '[DBG]: ' }
-		else { '' }) + '󰉋 ' + $(Split-Path -Path (Get-Location) -Leaf) +
-	$(if ($NestedPromptLevel -ge 1) { '>>' }) + ' 󰁕'
+		else { '' }) + $(Split-Path -Path (Get-Location) -Leaf) +
+	$(if ($NestedPromptLevel -ge 1) { '>>' }) + ' 󰁕 '
 }
 
 Set-Alias ll ls
+Set-Alias v nvim
 Set-Alias vim nvim
 Set-Alias which where.exe
 Set-Alias mv Rename-Item
 Set-Alias touch New-Item
 Set-Alias scmds Show-Command
 Set-Alias g git
-Set-Alias st status
-Set-Alias s scoop
-Set-Alias uns uninstall
+Set-Alias grep findstr
+Set-Alias tig 'tig.exe'
+Set-Alias less 'less.exe'
 
+Set-PSReadLineKeyHandler -Chord "Alt+l" -Function AcceptSuggestion
+Set-PSReadLineKeyHandler -Chord "Ctrl+LeftArrow" -Function BackwardWord
+Set-PSReadLineKeyHandler -Chord "Ctrl+RightArrow" -Function NextWord
+Set-PSReadLineKeyHandler -Chord "Ctrl+a" -Function SelectAll
+Set-PSReadLineKeyHandler -Chord "Alt+w" -Function KillWord
+Set-PSReadLineKeyHandler -Chord "Ctrl+Alt+d" -Function KillLine
+
+
+function ide {
+  start wt 'sp -H -s 0.30'
+  Start-Sleep -Seconds 0.2
+  start wt 'sp -V -s 0.65'
+  Start-Sleep -Seconds 0.2
+  start wt 'sp -V -s 0.5'
+  Start-Sleep -Second 0.2
+}
