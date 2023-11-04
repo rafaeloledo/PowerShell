@@ -6,12 +6,12 @@ $PSDefaultParameterValues['*:Encoding'] = 'utf8'
 
 Import-Module Terminal-Icons # Install-Module -Name Terminal-Icons
 
-function Export ($PathToAdd){
+function Export ($PathToAdd) {
 	$existingPath = [Environment]::GetEnvironmentVariable('Path', 'User')
 	($existingPath -notlike "*$PathToAdd*") -and [Environment]::SetEnvironmentVariable('Path', $env:Path + ";" + $PathToAdd, 'User')
 }
 
-function GlobalExport ($PathToAdd){
+function GlobalExport ($PathToAdd) {
 	$existingPath = [Environment]::GetEnvironmentVariable('Path', 'Machine')
 	($existingPath -notlike "*$PathToAdd*") -and [Environment]::SetEnvironmentVariable('Path', $env:Path + ";" + $PathToAdd, 'Machine')
 }
