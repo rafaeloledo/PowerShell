@@ -67,7 +67,6 @@ function prompt {
 	$(if ($NestedPromptLevel -ge 1) { '>>' }) + ' 󰁕 '
 }
 
-Set-Alias ll ls
 Set-Alias v nvim
 Set-Alias vim nvim
 Set-Alias which where.exe
@@ -78,6 +77,12 @@ Set-Alias g git
 Set-Alias grep findstr
 Set-Alias tig 'tig.exe'
 Set-Alias less 'less.exe'
+Set-Alias mv Move-Item
+Set-Alias rn Rename-Item
+
+function ll {
+  Get-ChildItem -Force $args[0]
+}
 
 Set-PSReadLineKeyHandler -Chord "Alt+l" -Function AcceptSuggestion
 Set-PSReadLineKeyHandler -Chord "Ctrl+LeftArrow" -Function BackwardWord
@@ -85,7 +90,6 @@ Set-PSReadLineKeyHandler -Chord "Ctrl+RightArrow" -Function NextWord
 Set-PSReadLineKeyHandler -Chord "Ctrl+a" -Function SelectAll
 Set-PSReadLineKeyHandler -Chord "Alt+w" -Function KillWord
 Set-PSReadLineKeyHandler -Chord "Ctrl+Alt+d" -Function KillLine
-
 
 function ide {
   start wt 'sp -H -s 0.30'
