@@ -1,0 +1,85 @@
+{
+  "$schema": "https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json",
+  "version": 2,
+  "console_title_template": "{{.Folder}}",
+  "blocks": [
+    {
+      "type": "prompt",
+      "alignment": "left",
+      "segments": [
+        {
+          "type": "path",
+          "style": "diamond",
+          "leading_diamond": "\n\ue0b6",
+          "trailing_diamond": "\ue0b0",
+          "foreground": "#1896d9",
+          "background": "#313435",
+          "template": " <#246a83>{{ .Parent }}</>{{ .Folder }} ",
+          "properties": {
+            "style": "full"
+          }
+        },
+        {
+          "type": "git",
+          "style": "diamond",
+          "trailing_diamond": "\ue0b0",
+          "foreground": "#000000",
+          "background": "#1c66a5",
+          "template": " {{ .HEAD }} {{ if .Working.Changed }}{{ .Working.String }}{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }} |{{ end }}{{ if .Staging.Changed }}<#ef5350> \ue0a0 {{ .Staging.String }}</>{{ end }} ",
+          "properties": {
+            "branch_icon": "\ue0a0 ",
+            "fetch_status": true,
+            "fetch_upstream_icon": true
+          }
+        }
+      ]
+    },
+    {
+      "type": "prompt",
+      "alignment": "right",
+      "segments": [
+        {
+          "type": "node",
+          "style": "diamond",
+          "foreground": "#3C873A",
+          "background": "#303030",
+          "leading_diamond": " \ue0b6",
+          "trailing_diamond": "\ue0b4",
+          "template": "\ue718 {{ if .PackageManagerIcon }}{{ .PackageManagerIcon }} {{ end }}{{ .Full }}",
+          "properties": {
+            "fetch_package_manager": true,
+            "npm_icon": " <#cc3a3a>\ue5fa</> ",
+            "yarn_icon": " <#348cba>\uf61a</>"
+          }
+        },
+        {
+          "type": "time",
+          "style": "diamond",
+          "invert_powerline": true,
+          "foreground": "#586e75",
+          "background": "#2d2f31",
+          "leading_diamond": " \ue0b6",
+          "trailing_diamond": "\ue0b4",
+          "template": " {{ .CurrentDate | date .Format }} "
+        }
+      ]
+    },
+    {
+      "type": "prompt",
+      "alignment": "left",
+      "segments": [
+        {
+          "type": "exit",
+          "foreground": "#e0f8ff",
+          "foreground_templates": ["{{ if gt .Code 0 }}#ef5350{{ end }}"],
+          "template": "<#6ec93d>❯ </>",
+          "properties": {
+            "always_enabled": true
+          }
+        }
+      ],
+      "newline": true
+    }
+  ],
+  "osc99": true
+}

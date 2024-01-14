@@ -2,3 +2,4 @@ Modules
 node_modules/
 package.json
 package-lock.json
+*bak
